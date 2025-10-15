@@ -1,0 +1,13 @@
+<div class="counter-container">
+  <h2>{{ appName }}</h2>
+  <div class="counter-display">
+    <p>Current count: <span class="count-value">{{ count() }}</span></p>
+  </div>
+  <div class="counter-controls">
+    <button class="btn btn-decrement" (click)="decrement()">-</button>
+    <button class="btn btn-increment" (click)="increment()">+</button>
+  </div>
+  <div class="counter-info">
+    <p class="environment-info">Environment: {{ production ? 'Production' : 'Development' }}</p>
+  </div>
+</div>
