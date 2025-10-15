@@ -38,7 +38,7 @@ The GitHub Actions workflow (`deploy.yml`) includes:
 - **Triggers**: Push to main, pull requests to main, and manual workflow dispatch
 - **Steps**:
   1. Checkout code
-  2. Setup Node.js 18 with npm caching
+  2. Setup Node.js 20 with npm caching
   3. Install dependencies
   4. Run unit tests (headless Chrome)
   5. Build for production with correct base href
