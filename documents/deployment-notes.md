@@ -36,13 +36,17 @@ To demonstrate deployment and CI/CD effectively, I recommend adding the followin
 ## CI/CD Pipeline
 The GitHub Actions workflow (`deploy.yml`) includes:
 - **Triggers**: Push to main, pull requests to main, and manual workflow dispatch
+- **Permissions**: Configured for GitHub Pages deployment (contents: read, pages: write, id-token: write)
+- **Concurrency**: Prevents multiple simultaneous deployments
 - **Steps**:
   1. Checkout code
   2. Setup Node.js 20 with npm caching
   3. Install dependencies
   4. Run unit tests (headless Chrome)
   5. Build for production with correct base href
-  6. Deploy to GitHub Pages (only on main branch pushes)
+  6. Setup GitHub Pages
+  7. Upload build artifacts
+  8. Deploy to GitHub Pages (only on main branch pushes)
 
 ## Deployment Instructions
 1. Push the code to the `main` branch on GitHub.
