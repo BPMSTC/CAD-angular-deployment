@@ -38,6 +38,7 @@ The GitHub Actions workflow (`deploy.yml`) includes:
 - **Triggers**: Push to main, pull requests to main, and manual workflow dispatch
 - **Permissions**: Configured for GitHub Pages deployment (contents: read, pages: write, id-token: write)
 - **Concurrency**: Prevents multiple simultaneous deployments
+- **Environment**: Uses `github-pages` environment for deployment
 - **Steps**:
   1. Checkout code
   2. Setup Node.js 20 with npm caching
