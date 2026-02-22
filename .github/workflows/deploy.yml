@@ -35,21 +35,21 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
-        cache-dependency-path: deploymentexample/package-lock.json
+        cache-dependency-path: team-task-tracker/package-lock.json
 
     - name: Install dependencies
       run: |
-        cd deploymentexample
+        cd team-task-tracker
         npm ci
 
     - name: Run tests
       run: |
-        cd deploymentexample
+        cd team-task-tracker
         npm test -- --watch=false --browsers=ChromeHeadless
 
     - name: Build
       run: |
-        cd deploymentexample
+        cd team-task-tracker
         npm run build -- --configuration production --base-href "/CAD-angular-deployment/"
 
     - name: Setup Pages
@@ -58,7 +58,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './deploymentexample/dist/deploymentexample/browser'
+        path: './team-task-tracker/dist/deploymentexample/browser'
 
     - name: Deploy to GitHub Pages
       id: deployment
