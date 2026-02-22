@@ -58,7 +58,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './team-task-tracker/dist/deploymentexample/browser'
+        path: './team-task-tracker/dist/team-task-tracker/browser'
 
     - name: Deploy to GitHub Pages
       id: deployment
