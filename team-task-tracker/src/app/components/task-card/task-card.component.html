@@ -1,8 +1,0 @@
-<article class="task-card">
-  <h4>{{ task.title }}</h4>
-  <p><strong>Status:</strong> {{ task.status }}</p>
-  <p><strong>Sprint:</strong> {{ task.metadata.sprint }}</p>
-  <p><strong>Assignee:</strong> {{ task.metadata.assignee }}</p>
-  <p><strong>Estimate:</strong> {{ task.metadata.estimatedHours }}h</p>
-  <button (click)="changeStatus()">{{ nextStatusLabel(task.status) }}</button>
-</article>

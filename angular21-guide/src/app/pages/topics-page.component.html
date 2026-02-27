@@ -1,0 +1,23 @@
+<section class="toolbar">
+  <label for="filter">Filter concepts (shows two-way binding)</label>
+  <input id="filter" [ngModel]="filter()" (ngModelChange)="updateFilter($event)" placeholder="all, signals, routing..." />
+  <p>Total concepts: {{ totalConcepts() }}</p>
+</section>
+
+@if (concepts$ | async; as concepts) {
+  <section class="topics">
+    @for (concept of concepts; track concept.title) {
+      @if (isVisible(concept)) {
+        <article class="topic-card">
+          <h3>{{ concept.title }}</h3>
+          <p>{{ concept.summary }}</p>
+          <ul>
+            @for (point of concept.keyPoints; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        </article>
+      }
+    }
+  </section>
+}

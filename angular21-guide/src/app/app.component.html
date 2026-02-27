@@ -1,0 +1,12 @@
+<div class="shell">
+  <header>
+    <h1>{{ appTitle }}</h1>
+    <p>A practical single-page app that explains the core Angular 21 building blocks.</p>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
+      <a routerLink="/topics" routerLinkActive="active">Core Topics</a>
+    </nav>
+  </header>
+
+  <router-outlet></router-outlet>
+</div>

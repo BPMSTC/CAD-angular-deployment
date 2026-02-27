@@ -1,0 +1,23 @@
+.toolbar {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+input {
+  padding: 0.55rem;
+  border: 1px solid #a8bfdc;
+  border-radius: 8px;
+}
+
+.topics {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.topic-card {
+  border: 1px solid #d7deea;
+  border-radius: 10px;
+  padding: 0.9rem;
+  background: #fff;
+}
