@@ -11,6 +11,10 @@
         <article class="topic-card">
           <h3>{{ concept.title }}</h3>
           <p>{{ concept.summary }}</p>
+          <figure class="diagram-placeholder" aria-label="Diagram placeholder for {{ concept.title }}">
+            <figcaption>Diagram / Image Slot</figcaption>
+            <p>{{ concept.diagramPlaceholder }}</p>
+          </figure>
           <ul>
             @for (point of concept.keyPoints; track point) {
               <li>{{ point }}</li>
