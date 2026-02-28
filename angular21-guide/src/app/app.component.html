@@ -1,12 +1,44 @@
 <div class="shell">
-  <header>
-    <h1>{{ appTitle }}</h1>
-    <p>A practical single-page app that explains the core Angular 21 building blocks.</p>
-    <nav>
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
-      <a routerLink="/topics" routerLinkActive="active">Core Topics</a>
+
+  <!-- ── Sticky header ── -->
+  <header class="site-header">
+    <div class="header-inner">
+
+      <!-- Brand -->
+      <div class="brand">
+        <div class="ng-logo" aria-hidden="true">A</div>
+        <div class="brand-text">
+          <span class="site-title">Angular 21</span>
+          <span class="site-sub">Learning Hub</span>
+        </div>
+      </div>
+
+      <!-- Dark-mode toggle — demonstrates event binding! -->
+      <button
+        class="theme-btn"
+        (click)="theme.toggle()"
+        [attr.aria-label]="theme.dark() ? 'Switch to light mode' : 'Switch to dark mode'"
+        title="Toggle dark / light mode"
+      >
+        @if (theme.dark()) { ☀️ } @else { 🌙 }
+      </button>
+
+    </div>
+
+    <!-- Navigation tabs -->
+    <nav class="site-nav" aria-label="Main navigation">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span aria-hidden="true">🏠</span> Overview
+      </a>
+      <a routerLink="/topics" routerLinkActive="active">
+        <span aria-hidden="true">📚</span> Core Topics
+      </a>
     </nav>
   </header>
 
-  <router-outlet></router-outlet>
+  <!-- ── Page content ── -->
+  <main class="content">
+    <router-outlet />
+  </main>
+
 </div>

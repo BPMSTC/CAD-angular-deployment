@@ -1,12 +1,150 @@
-<section class="panel">
-  <h2>Why this project exists</h2>
-  <p>
-    This repository was rebuilt as an Angular 21-focused learning SPA. It introduces the most important
-    framework concepts and demonstrates modern patterns like standalone components, control flow syntax,
-    observables, and signals.
+<!-- ══════════════════════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════════════════════ -->
+<section class="hero animate-up">
+  <div class="hero-badge">Angular 21 · Standalone Components · Signals</div>
+  <h2 class="hero-title">
+    Learn Angular the way it's actually built —
+    <span class="gradient-text">by exploring a live Angular app.</span>
+  </h2>
+  <p class="hero-desc">
+    This learning hub <em>is</em> an Angular 21 application. Every concept on the Topics page
+    is demonstrated right here: routing, services, components, signals, and observables.
+    Read the code. Poke the demos. Then go build something.
   </p>
-  <p>
-    Continue to the topics page for a concept-by-concept walkthrough.
-    <a routerLink="/topics">Open Core Topics →</a>
-  </p>
+  <a class="cta-btn" routerLink="/topics">Explore Core Topics →</a>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TOPIC CHIPS
+     ══════════════════════════════════════════════════════════════ -->
+<section class="chips-section animate-up delay-1">
+  <p class="section-eyebrow">8 Concepts Covered</p>
+  <div class="chip-grid">
+    @for (concept of concepts; track concept.id) {
+      <div class="chip" [style.--chip-color]="concept.color">
+        <span class="chip-icon">{{ concept.icon }}</span>
+        <span class="chip-label">{{ concept.shortTitle }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SIGNAL PLAYGROUND  ← The interactive showpiece
+     ══════════════════════════════════════════════════════════════ -->
+<section class="playground animate-up delay-2">
+
+  <div class="playground-header">
+    <span class="playground-badge">⚡ Interactive Demo</span>
+    <h3 class="playground-title">Angular Signals in Action</h3>
+    <p class="playground-desc">
+      Signals are Angular 21's reactive state primitive.
+      Click the buttons and watch <code>signal()</code>, <code>computed()</code>,
+      and <code>effect()</code> respond in real time — no page reload, no manual DOM updates.
+    </p>
+  </div>
+
+  <div class="playground-body">
+
+    <!-- Signal value display board -->
+    <div class="signal-board">
+
+      <div class="signal-card primary">
+        <div class="signal-api">signal()</div>
+        <div class="signal-value">{{ count() }}</div>
+        <div class="signal-role">Reactive source</div>
+      </div>
+
+      <div class="board-arrow" aria-hidden="true">→</div>
+
+      <div class="signal-card secondary">
+        <div class="signal-api">computed()</div>
+        <div class="signal-value">{{ doubled() }}</div>
+        <div class="signal-role">count × 2</div>
+      </div>
+
+      <div class="board-arrow" aria-hidden="true">→</div>
+
+      <div class="signal-card tertiary" [class.even]="isEven()">
+        <div class="signal-api">computed()</div>
+        <div class="signal-value">{{ isEven() ? 'Even' : 'Odd' }}</div>
+        <div class="signal-role">count % 2 === 0</div>
+      </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="ctrl-btn ctrl-dec" (click)="decrement()" [disabled]="count() === 0">
+        − Decrement
+      </button>
+      <button class="ctrl-btn ctrl-rst" (click)="reset()">↺ Reset</button>
+      <button class="ctrl-btn ctrl-inc" (click)="increment()">+ Increment</button>
+    </div>
+
+    <!-- effect() log panel -->
+    <div class="effect-panel">
+      <div class="effect-header">
+        <span class="effect-dot" aria-hidden="true"></span>
+        <code>effect()</code> — fires every time <code>count</code> changes
+      </div>
+      <div class="effect-log" aria-live="polite" aria-label="Effect log">
+        @for (entry of effectLog(); track entry) {
+          <div class="log-entry animate-in">{{ entry }}</div>
+        }
+      </div>
+    </div>
+
+    <!-- Source code of this very demo -->
+    <div class="playground-code">
+      <div class="code-label">The TypeScript powering this demo:</div>
+      <pre><code>count   = signal(0);
+doubled = computed(() => count() * 2);
+isEven  = computed(() => count() % 2 === 0);
+
+effect(() => &#123;
+  console.log('count changed to:', count());
+&#125;);</code></pre>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HOW THIS APP TEACHES
+     ══════════════════════════════════════════════════════════════ -->
+<section class="meta animate-up delay-3">
+  <p class="section-eyebrow">This App IS the Lesson</p>
+  <div class="meta-grid">
+
+    <div class="meta-card">
+      <div class="meta-icon">🗺️</div>
+      <h4>Angular Router</h4>
+      <p>The Overview / Core Topics navigation above uses <code>RouterLink</code>,
+         <code>RouterOutlet</code>, and <code>routerLinkActive</code>.</p>
+    </div>
+
+    <div class="meta-card">
+      <div class="meta-icon">🧩</div>
+      <h4>Standalone Components</h4>
+      <p>Every component in this app declares <code>standalone: true</code>
+         — the Angular 21 default. No NgModules anywhere.</p>
+    </div>
+
+    <div class="meta-card">
+      <div class="meta-icon">💉</div>
+      <h4>Dependency Injection</h4>
+      <p>The <code>AngularConceptsService</code> is injected here with
+         <code>inject()</code> and shared with the Topics page.</p>
+    </div>
+
+    <div class="meta-card">
+      <div class="meta-icon">🌊</div>
+      <h4>Observables</h4>
+      <p>Concepts on the Topics page load via an <code>Observable</code>
+         with a simulated delay, displayed using the <code>async</code> pipe.</p>
+    </div>
+
+  </div>
 </section>

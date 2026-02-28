@@ -1,27 +1,169 @@
-<section class="toolbar">
-  <label for="filter">Filter concepts (shows two-way binding)</label>
-  <input id="filter" [ngModel]="filter()" (ngModelChange)="updateFilter($event)" placeholder="all, signals, routing..." />
-  <p>Total concepts: {{ totalConcepts() }}</p>
-</section>
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE HEADER + PROGRESS
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page-header animate-up">
+  <div class="header-text">
+    <h2 class="page-title">Core Topics</h2>
+    <p class="page-desc">
+      Eight Angular 21 concepts. Click any card to expand code examples and key points.
+    </p>
+  </div>
 
+  <div class="progress-box">
+    <div class="progress-labels">
+      <span>{{ learnedCount() }} / {{ totalConcepts() }} learned</span>
+      <span class="progress-pct">{{ progressPct() }}%</span>
+    </div>
+    <div class="progress-track" role="progressbar"
+         [attr.aria-valuenow]="progressPct()"
+         aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-fill" [style.width.%]="progressPct()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SEARCH BAR  (two-way binding demo)
+     ══════════════════════════════════════════════════════════════ -->
+<div class="search-row animate-up delay-1">
+  <div class="search-wrap">
+    <span class="search-icon" aria-hidden="true">🔍</span>
+    <input
+      class="search-input"
+      id="filter"
+      [ngModel]="filter()"
+      (ngModelChange)="updateFilter($event)"
+      placeholder="Filter topics — try: signals, routing, HTTP…"
+      autocomplete="off"
+      aria-label="Filter concepts"
+    />
+    @if (filter()) {
+      <button class="search-clear" (click)="updateFilter('')" aria-label="Clear filter">✕</button>
+    }
+  </div>
+  <span class="result-hint">{{ totalConcepts() }} topics · two-way binding demo</span>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CONCEPT CARDS
+     ══════════════════════════════════════════════════════════════ -->
 @if (concepts$ | async; as concepts) {
-  <section class="topics">
-    @for (concept of concepts; track concept.title) {
+  <div class="topic-grid animate-up delay-2">
+
+    @for (concept of concepts; track concept.id) {
       @if (isVisible(concept)) {
-        <article class="topic-card">
-          <h3>{{ concept.title }}</h3>
-          <p>{{ concept.summary }}</p>
-          <figure class="diagram-placeholder" aria-label="Diagram placeholder for {{ concept.title }}">
-            <figcaption>Diagram / Image Slot</figcaption>
-            <p>{{ concept.diagramPlaceholder }}</p>
-          </figure>
-          <ul>
-            @for (point of concept.keyPoints; track point) {
-              <li>{{ point }}</li>
-            }
-          </ul>
+
+        <article
+          class="topic-card"
+          [class.is-expanded]="isExpanded(concept.id)"
+          [class.is-learned]="isLearned(concept.id)"
+          [style.--accent]="concept.color"
+          (click)="toggleExpand(concept.id)"
+          role="button"
+          tabindex="0"
+          [attr.aria-expanded]="isExpanded(concept.id)"
+          (keydown.enter)="toggleExpand(concept.id)"
+          (keydown.space)="toggleExpand(concept.id); $event.preventDefault()"
+        >
+
+          <!-- ── Card header ── -->
+          <div class="card-header">
+            <div class="card-icon-wrap" aria-hidden="true">{{ concept.icon }}</div>
+
+            <div class="card-title-area">
+              <div class="card-tags">
+                @for (tag of concept.tags.slice(0, 2); track tag) {
+                  <span class="card-tag">{{ tag }}</span>
+                }
+              </div>
+              <h3 class="card-title">{{ concept.title }}</h3>
+            </div>
+
+            <div class="card-controls">
+              <!-- Learned toggle -->
+              <button
+                class="learned-btn"
+                [class.is-learned]="isLearned(concept.id)"
+                (click)="toggleLearned(concept.id, $event)"
+                [attr.aria-label]="isLearned(concept.id) ? 'Mark as unlearned' : 'Mark as learned'"
+                [title]="isLearned(concept.id) ? 'Mark as unlearned' : 'Mark as learned'"
+              >
+                {{ isLearned(concept.id) ? '✓' : '○' }}
+              </button>
+              <!-- Expand chevron -->
+              <span class="expand-chevron" [class.open]="isExpanded(concept.id)" aria-hidden="true">›</span>
+            </div>
+          </div>
+
+          <!-- ── Summary ── -->
+          <p class="card-summary">{{ concept.summary }}</p>
+
+          <!-- ── Expanded content ── -->
+          @if (isExpanded(concept.id)) {
+            <div class="card-expanded animate-in" (click)="$event.stopPropagation()">
+
+              <!-- Key points -->
+              <div class="key-points">
+                <p class="section-eyebrow">Key Points</p>
+                <ul class="points-list">
+                  @for (point of concept.keyPoints; track point) {
+                    <li>{{ point }}</li>
+                  }
+                </ul>
+              </div>
+
+              <!-- Code tabs -->
+              @if (concept.codeTabs.length > 0) {
+                <div class="code-section">
+
+                  <!-- Tab bar -->
+                  <div class="tab-bar">
+                    <div class="tab-list" role="tablist">
+                      @for (tab of concept.codeTabs; track tab.label) {
+                        <button
+                          class="tab-btn"
+                          [class.active]="getActiveLabel(concept.id, concept.codeTabs) === tab.label"
+                          (click)="setActiveTab(concept.id, tab.label, $event)"
+                          role="tab"
+                        >{{ tab.label }}</button>
+                      }
+                    </div>
+                    <button
+                      class="copy-btn"
+                      (click)="copyCode(concept.id, getActiveCode(concept.id, concept.codeTabs), $event)"
+                      [attr.aria-label]="copiedId() === concept.id ? 'Copied!' : 'Copy code'"
+                    >
+                      {{ copiedId() === concept.id ? '✓ Copied' : '⎘ Copy' }}
+                    </button>
+                  </div>
+
+                  <!-- Code panel -->
+                  <div class="code-panel">
+                    <pre><code [innerHTML]="getActiveCode(concept.id, concept.codeTabs) | hl : getActiveLang(concept.id, concept.codeTabs)"></code></pre>
+                  </div>
+
+                </div>
+              }
+
+              <!-- Mark-as-learned footer -->
+              <div class="expanded-footer">
+                <button
+                  class="mark-learned-btn"
+                  [class.is-learned]="isLearned(concept.id)"
+                  (click)="toggleLearned(concept.id, $event)"
+                >
+                  @if (isLearned(concept.id)) { ✓ Marked as Learned }
+                  @else { Mark as Learned }
+                </button>
+              </div>
+
+            </div>
+          }
+
         </article>
+
       }
     }
-  </section>
+
+  </div>
 }

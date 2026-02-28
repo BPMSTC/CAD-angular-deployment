@@ -1,16 +1,143 @@
-* {
-  box-sizing: border-box;
+/* ============================================================
+   Angular 21 Learning Hub — Global Styles
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ── Design Tokens ── */
+:root {
+  --red:          #DD0031;
+  --red-dark:     #C3002F;
+  --red-glow:     rgba(221, 0, 49, 0.12);
+
+  --bg:           #F0F2FF;
+  --bg-surface:   #FFFFFF;
+  --bg-elevated:  #FAFBFF;
+  --bg-code:      #1E1E3F;
+
+  --text:         #1A1B2E;
+  --text-muted:   #5A6480;
+  --text-subtle:  #8A94B0;
+
+  --border:       #E2E6F0;
+
+  --shadow-sm:    0 1px 4px rgba(0,0,0,0.07);
+  --shadow:       0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:    0 8px 32px rgba(0,0,0,0.12);
+
+  --radius:       16px;
+  --radius-sm:    10px;
+  --radius-xs:    6px;
+
+  --ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --transition:   0.22s var(--ease);
 }
+
+[data-theme="dark"] {
+  --bg:           #0A0B14;
+  --bg-surface:   #12131F;
+  --bg-elevated:  #1A1B2E;
+  --bg-code:      #080810;
+
+  --text:         #E8EAF6;
+  --text-muted:   #8892B0;
+  --text-subtle:  #55607A;
+
+  --border:       #232438;
+
+  --shadow-sm:    0 1px 4px rgba(0,0,0,0.3);
+  --shadow:       0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg:    0 8px 32px rgba(0,0,0,0.55);
+}
+
+/* ── Base ── */
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: #f4f7fb;
-  color: #1f2937;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--transition), color var(--transition);
 }
 
-code {
-  background: #e5e7eb;
-  border-radius: 4px;
-  padding: 0.1rem 0.3rem;
+h1, h2, h3, h4, h5 {
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 0;
 }
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--red); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Inline code ── */
+code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 0.875em;
+  background: var(--red-glow);
+  color: var(--red);
+  border-radius: var(--radius-xs);
+  padding: 0.15em 0.4em;
+}
+
+/* ── Code blocks ── */
+pre {
+  margin: 0;
+  background: var(--bg-code);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+pre code {
+  display: block;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: #cdd3de;
+  background: none;
+  white-space: pre;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* Syntax token colours */
+pre code b.kw   { color: #c792ea; font-weight: normal; }
+pre code b.fn   { color: #82aaff; font-weight: normal; }
+pre code b.dc   { color: #f78c6c; font-weight: normal; }
+pre code b.attr { color: #ffcb6b; font-weight: normal; }
+pre code em.s   { color: #c3e88d; font-style: normal;  }
+pre code em.cm  { color: #546e7a; font-style: italic;  }
+
+/* ── Scrollbars ── */
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--text-subtle); }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.animate-up { animation: fadeUp 0.4s var(--ease) both; }
+.animate-in { animation: fadeIn 0.25s var(--ease) both; }
+
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+.delay-4 { animation-delay: 0.32s; }
