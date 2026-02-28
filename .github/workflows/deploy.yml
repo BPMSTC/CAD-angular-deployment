@@ -2,7 +2,7 @@ name: Deploy Angular app to GitHub Pages
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, angular-21guide]
   workflow_dispatch:
 
 permissions:
